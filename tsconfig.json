@@ -14,10 +14,10 @@
     "baseUrl": "./src",
     "paths": {
       "~/*": ["*"],
-      "~/tests/": ["../tests/"]
+      "~/tests/": ["../tests/"],
+      "typeRoots": ["./src/@types"]
     },
     "rootDirs": ["src", "tests"],
-    "typeRoots": ["src", "./src/@types"],
     "types": ["node"],
     "esModuleInterop": true,
     "experimentalDecorators": true,
@@ -27,5 +27,8 @@
     "forceConsistentCasingInFileNames": true
   },
   "include": ["src"],
-  "exclude": ["node_modules", "build", "tests"]
+  "exclude": ["node_modules", "build", "tests"],
+  "ts-node": {
+    "files": true
+  }
 }
