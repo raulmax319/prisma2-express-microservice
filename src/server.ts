@@ -1,21 +1,24 @@
 import express from 'express';
-import { Logger } from './utils/logger';
+import routes from './routes';
+// import { apiV1 } from './routes/v1';
+import { logger } from './utils/logger';
 
-export class Server {
-  private readonly logger: Logger = new Logger(true);
+class Server {
   private readonly app = express();
   private readonly PORT = process.env.PORT ?? 3000;
+  private readonly log = logger;
+  private readonly router = routes;
 
   private applyMiddlewares = () => {
     this.app.use(express.json());
-    // this.app.use('/v1', apiV1);
+    this.router(this.app);
   };
 
   public start = async () => {
     this.applyMiddlewares();
 
     this.app.listen(this.PORT, () => {
-      this.logger.detail(`Server is running on port ${this.PORT}`);
+      this.log.detail(`Server is running on port ${this.PORT}`);
     });
   };
 }

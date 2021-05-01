@@ -1,4 +1,4 @@
-export class Logger {
+class Logger {
   constructor(private readonly debug?: boolean) {}
   private readonly colors: ColorList = {
     red: '\u001b[31m',
@@ -54,3 +54,5 @@ export class Logger {
     }
   };
 }
+
+export const logger = new Logger();
