@@ -1,3 +1,5 @@
+import { Color, ColorList, Log, LogCodes } from '~/common/interfaces/logger.interface';
+
 class Logger {
   constructor(private readonly debug?: boolean) {}
   private readonly colors: ColorList = {

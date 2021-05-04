@@ -27,7 +27,7 @@
     "forceConsistentCasingInFileNames": true
   },
   "include": ["src"],
-  "exclude": ["node_modules", "build", "tests"],
+  "exclude": ["node_modules", "build", "tests", "./node_modules"],
   "ts-node": {
     "files": true
   }

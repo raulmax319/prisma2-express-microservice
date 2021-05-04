@@ -11,7 +11,10 @@
     "prettify": "prettier --config .prettierrc src/**/*.ts --write"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "@overnightjs/core": "^1.7.5",
+    "@overnightjs/logger": "^1.2.0",
+    "express": "^4.17.1",
+    "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
     "@types/express": "^4.17.11",

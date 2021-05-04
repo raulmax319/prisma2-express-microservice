@@ -1,26 +1,33 @@
 import express from 'express';
-import routes from './routes';
-// import { apiV1 } from './routes/v1';
+import { Server } from '@overnightjs/core';
+import { Router } from '~/routes';
 import { logger } from './utils/logger';
+import { HelloWorldController } from './controllers/hello-world/hello-world.controller';
 
-class Server {
-  private readonly app = express();
-  private readonly PORT = process.env.PORT ?? 3000;
+class CoreServer extends Server {
+  private readonly PORT = process.env.PORT ?? 3001;
   private readonly log = logger;
-  private readonly router = routes;
+  constructor() {
+    super(process.env.NODE_ENV === 'development');
+    this.showLogs = true;
+    this.applyMiddlewares();
+    this.setupControllers();
+  }
+
+  private setupControllers(): void {
+    const helloController = new HelloWorldController();
+    super.addControllers([helloController]);
+  }
 
   private applyMiddlewares = () => {
     this.app.use(express.json());
-    this.router(this.app);
   };
 
-  public start = async () => {
-    this.applyMiddlewares();
-
+  public start() {
     this.app.listen(this.PORT, () => {
       this.log.detail(`Server is running on port ${this.PORT}`);
     });
-  };
+  }
 }
 
-export const server = new Server();
+export const server = new CoreServer();
