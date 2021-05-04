@@ -25,7 +25,7 @@ class CoreServer extends Server {
 
   public start() {
     this.app.listen(this.PORT, () => {
-      this.log.detail(`Server is running on port ${this.PORT}`);
+      console.log(`Server is running on port ${this.PORT}`);
     });
   }
 }

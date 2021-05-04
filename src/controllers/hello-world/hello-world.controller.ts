@@ -2,14 +2,14 @@ import { Controller, Get, Post } from '@overnightjs/core';
 import { NextFunction, Request, Response } from 'express';
 import { logger } from '~/utils/logger';
 
-@Controller('/hello')
+@Controller('hello')
 export class HelloWorldController {
   @Get('/')
-  private getHello = (
+  private getHello (
     req: Request,
     res: Response,
     next: NextFunction,
-  ): Response<{ ok: boolean; message: string }> | undefined => {
+  ): Response<{ ok: boolean; message: string }> | undefined {
     try {
       const response = { ok: true, message: 'helloWorld' };
       return res.send(response);
