@@ -8,7 +8,7 @@
 
     "strict": true,
     "noImplicitAny": true,
-    "strictNullChecks": true,
+    "strictNullChecks": false,
 
     "moduleResolution": "node",
     "baseUrl": "./src",
@@ -26,8 +26,8 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "build", "tests"],
+  "include": ["src", "seed.ts"],
+  "exclude": ["node_modules", "build", "tests", "./node_modules"],
   "ts-node": {
     "files": true
   }

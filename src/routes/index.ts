@@ -1,11 +1,14 @@
-import { Express, Router } from 'express';
-import { readdirSync } from 'fs';
+import * as controllers from '~/controllers';
 
-export default (app: Express): void => {
-  const router = Router();
-  app.use('/api/v1', router);
+export default () => {
+  const controllerInstances = [];
 
-  readdirSync(`${__dirname}/v1`).map((file) => {
-    if (!file.endsWith('.map')) require(`./v1/${file}`).default(router);
-  });
+  for (const name of Object.keys(controllers)) {
+    const controller = (controllers as any)[name];
+
+    if (typeof controller === 'function') {
+      controllerInstances.push(new controller());
+    }
+  }
+  return controllerInstances;
 };
