@@ -22,7 +22,7 @@ export class UserController {
   ): Promise<Response<OmittedUser>> {
     const { id } = req.params;
 
-    if (!id || isNaN(Number(id)))
+    if (!id || typeof id === 'number')
       return res.status(400).json({
         message: `ID provided invalid or empty, did you mistyped something?`,
       });
@@ -73,7 +73,7 @@ export class UserController {
       return res.status(201).json(response);
     } catch (error) {
       const message = `Unique constraint failed on the fields: [${error.meta.target.map(
-        (elem: any) => `(${elem})`,
+        (elem: string) => `(${elem})`,
       )}]`;
       const response = {
         code: error.code,
