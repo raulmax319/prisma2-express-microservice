@@ -1,25 +1,19 @@
-import { User } from '@prisma/client';
 import { Controller, Get, Post } from '@overnightjs/core';
 import { NextFunction, Request, Response } from 'express';
-import { database } from '~/database/database';
+import { SafeUser, UserCreationResponse, UserError } from '~/common/interfaces/user.interface';
+import { UserService } from '~/services/user.service';
 
-type OmittedUser = Omit<User, 'password'>;
-
-interface UserCreationResponse {
-  username?: string;
-  email: string;
-}
-
+// @TODO Error handling
 @Controller('user')
 export class UserController {
-  private readonly prisma: typeof database = database;
+  private readonly userService: UserService = new UserService();
 
   @Get(':id')
-  private async getUser(
+  private findOne = async (
     req: Request,
     res: Response,
     next: NextFunction,
-  ): Promise<Response<OmittedUser>> {
+  ): Promise<Response<SafeUser>> => {
     const { id } = req.params;
 
     if (!id || typeof id === 'number')
@@ -28,58 +22,30 @@ export class UserController {
       });
 
     try {
-      const user: OmittedUser = await this.prisma.user.findUnique({
-        where: { id: Number(id) },
-      });
-
-      const response: OmittedUser = {
-        id: Number(id),
-        username: user.username,
-        email: user.email,
-        createdAt: user.createdAt,
-      };
-      return res.json(response);
+      const response = await this.userService.findUser(Number(id));
+      return res.status(200).json(response);
     } catch (e) {
       const response = {
         payload: e,
-        message: `User with ID: ${id} not found.`,
       };
-      return res.status(404).json(response);
+      return res.status(500).json(response);
     }
-  }
+  };
 
   @Post('create')
-  private async saveUser(
+  private create = async (
     req: Request,
     res: Response,
     next: NextFunction,
-  ): Promise<Response<UserCreationResponse>> {
+  ): Promise<Response<UserCreationResponse | UserError>> => {
     try {
-      const user: Omit<User, 'id'> = {
-        email: 'test.user4@mail.com',
-        password: '51515',
-        username: 'testuser4',
-        createdAt: new Date(),
-      };
+      const response = await this.userService.createUser(req.body);
 
-      const newUser: User = await this.prisma.user.create({
-        data: user,
-      });
+      if (response.code === 'P2002') return res.status(409).json(response);
 
-      const response: UserCreationResponse = {
-        username: newUser.username,
-        email: newUser.email,
-      };
       return res.status(201).json(response);
-    } catch (error) {
-      const message = `Unique constraint failed on the fields: [${error.meta.target.map(
-        (elem: string) => `(${elem})`,
-      )}]`;
-      const response = {
-        code: error.code,
-        message,
-      };
-      return res.status(409).json(response);
+    } catch {
+      return res.status(500).json({ message: 'Internal server error.' });
     }
-  }
+  };
 }
