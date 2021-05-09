@@ -36,4 +36,3 @@ dist/**/*
 
 # ignore lock files
 package-lock.json
-yarn.lock
