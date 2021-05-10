@@ -11,7 +11,8 @@
     "prettify": "prettier --config .prettierrc src/**/*.ts --write",
     "generate": "graphql-codegen graphqlrc.yml",
     "gql": "graphql-codegen --config graphqlrc.yml",
-    "precommit": "yarn lint"
+    "precommit": "yarn lint",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@overnightjs/core": "^1.7.5",
@@ -39,22 +40,12 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.4.0",
-    "husky": "^6.0.0",
     "nodemon": "^2.0.7",
     "prettier": "^2.2.1",
     "prisma": "^2.22.0",
     "ts-node": "^9.1.1",
     "tsconfig-paths": "^3.9.0",
-    "typescript": "^4.2.4"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{js,ts,tsx}": [
-      "eslint --fix"
-    ]
+    "typescript": "^4.2.4",
+    "husky": "^6.0.0"
   }
 }
