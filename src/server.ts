@@ -1,12 +1,12 @@
 import express from 'express';
 import cors from 'cors';
 import { Server } from '@overnightjs/core';
-import { PrismaClient } from '@prisma/client';
 import { Logger } from 'tslog';
 import controllerInstances from '~/routes';
+import { database } from './database/database';
 
 class CoreServer extends Server {
-  private readonly prisma: PrismaClient = new PrismaClient();
+  private readonly prisma: typeof database = database;
 
   private readonly PORT = process.env.PORT ?? 3001;
 
@@ -34,10 +34,11 @@ class CoreServer extends Server {
   public async start() {
     await this.prisma
       .$connect()
-      .then(() => this.logger.debug('Prisma connected successfully'))
+      .then(() => this.logger.info('Prisma connected successfully'))
       .catch((e) => this.logger.error('error... ', e));
+
     this.app.listen(this.PORT, () => {
-      this.logger.debug(`Server is running on port ${this.PORT}`);
+      this.logger.info(`Server is running on port ${this.PORT}`);
     });
   }
 }
