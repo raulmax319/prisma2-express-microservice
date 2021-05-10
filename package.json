@@ -10,7 +10,8 @@
     "dev": "nodemon -e ts,js --exec ts-node -r tsconfig-paths/register ./src/index.ts",
     "prettify": "prettier --config .prettierrc src/**/*.ts --write",
     "generate": "graphql-codegen graphqlrc.yml",
-    "gql": "graphql-codegen --config graphqlrc.yml"
+    "gql": "graphql-codegen --config graphqlrc.yml",
+    "precommit": "yarn lint"
   },
   "dependencies": {
     "@overnightjs/core": "^1.7.5",
