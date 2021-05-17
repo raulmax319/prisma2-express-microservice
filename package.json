@@ -8,7 +8,8 @@
   "scripts": {
     "lint": "eslint src/**/*.ts",
     "dev": "nodemon -e ts,js --exec ts-node -r tsconfig-paths/register ./src/index.ts",
-    "prettify": "prettier --config .prettierrc src/**/*.ts --write"
+    "prettify": "prettier --config .prettierrc src/**/*.ts --write",
+    "prepare": "husky install && prisma generate"
   },
   "dependencies": {
     "@overnightjs/core": "^1.7.5",
@@ -38,15 +39,5 @@
     "ts-node": "^9.1.1",
     "tsconfig-paths": "^3.9.0",
     "typescript": "^4.2.4"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{js,ts,tsx}": [
-      "eslint --fix"
-    ]
   }
 }
