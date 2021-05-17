@@ -1,6 +1,8 @@
 import { PrismaClient } from '@prisma/client';
+import { Logger } from 'tslog';
 
 const prisma = new PrismaClient();
+const logger = new Logger();
 
 async function main() {
   const admin = await prisma.user.upsert({
@@ -30,7 +32,7 @@ async function main() {
 
 main()
   .catch((error) => {
-    console.error(error);
+    logger.error(error);
     process.exit(1);
   })
   .finally(async () => {

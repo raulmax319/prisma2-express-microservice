@@ -6,7 +6,7 @@
   "author": "Raul Max <raulmax319@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint src/**/*.ts",
+    "lint": "eslint . --ext .ts",
     "dev": "nodemon -e ts,js --exec ts-node -r tsconfig-paths/register ./src/index.ts",
     "prettify": "prettier --config .prettierrc src/**/*.ts --write",
     "prepare": "husky install && prisma generate"
