@@ -1,7 +1,8 @@
 import { PrismaClient } from '@prisma/client';
-import formatDate from '../src/helpers/format-date';
+import { Logger } from 'tslog';
 
 const prisma = new PrismaClient();
+const logger = new Logger();
 
 async function main() {
   const admin = await prisma.user.upsert({
@@ -12,6 +13,7 @@ async function main() {
       username: 'admin',
       password: '1234', // @TODO encrypt
       createdAt: new Date(),
+      role: 'ADMIN',
     },
   });
 
@@ -21,6 +23,7 @@ async function main() {
       username: 'user',
       password: '4321', // @TODO encrypt
       createdAt: new Date(),
+      role: 'USER',
     },
     where: {},
     update: {},
@@ -29,7 +32,7 @@ async function main() {
 
 main()
   .catch((error) => {
-    console.error(error);
+    logger.error(error);
     process.exit(1);
   })
   .finally(async () => {
