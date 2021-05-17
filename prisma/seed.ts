@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client';
-import formatDate from '../src/helpers/format-date';
 
 const prisma = new PrismaClient();
 
@@ -12,6 +11,7 @@ async function main() {
       username: 'admin',
       password: '1234', // @TODO encrypt
       createdAt: new Date(),
+      role: 'ADMIN',
     },
   });
 
@@ -21,6 +21,7 @@ async function main() {
       username: 'user',
       password: '4321', // @TODO encrypt
       createdAt: new Date(),
+      role: 'USER',
     },
     where: {},
     update: {},
